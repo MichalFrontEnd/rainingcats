@@ -5,7 +5,11 @@ const Search = (props) => {
     const key = process.env.REACT_APP_API_KEY;
 
     const [city, setCity] = useState("");
-    const [unit, setUnit] = useState("kelvin");
+    const {unit: [unit, setUnit],
+    }={
+        unit: useState("Kelvin"),
+        ...(props.state || {})
+    } 
     const {
         resList: [resList, setResList],
     } = {
