@@ -7,7 +7,7 @@ const Search = (props) => {
     const [city, setCity] = useState("");
     const {unit: [unit, setUnit],
     }={
-        unit: useState("Kelvin"),
+        unit: useState("metric"),
         ...(props.state || {})
     } 
     const {
@@ -19,9 +19,7 @@ const Search = (props) => {
 
     let stateCopy;
 
-    //console.log('props: ', props);
-
-    const searchCity = (e) => {
+    const searchWeather = (e) => {
         e.preventDefault();
         axios
             .get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${key}`)
@@ -34,19 +32,20 @@ const Search = (props) => {
             .catch((err) => {
                 console.error(err.message);
             });
+        setCity("")
     };
 
     return (
         <div className="search">
             <form>
-                <input type="text" name="search" onInput={(e) => setCity(e.target.value)} placeholder="Type a city here"></input>
+                <input type="text" name="search" value={city} onInput={(e) => setCity(e.target.value)} placeholder="Type a city here"></input>
                 <label>Unit</label>
-                <select value={unit} onChange={(e) => setUnit(e.target.value)}>
-                    <option value="standard">Kelvin</option>
-                    <option value="metric">Celsius</option>
-                    <option value="imperial">Fahrenheit</option>
+                {/* unit can be changed only when there's a city input */}
+                <select value={unit} onChange={city? (e) => setUnit(e.target.value):null}>
+                    <option value="metric">Metric | ℃</option>
+                    <option value="imperial">Imperial | ℉</option>
                 </select>
-                <button onClick={(e) => searchCity(e)}>Search</button>
+                <button onClick={(e) => searchWeather(e)}>Search</button>
             </form>
         </div>
     );
