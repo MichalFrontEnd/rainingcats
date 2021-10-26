@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
 
 const Search = (props) => {
     const key = process.env.REACT_APP_API_KEY;
 
-    const [city, setCity] = useState("");
+    const {city: [city, setCity],
+    }={
+        city: useState(""),
+        ...(props.state || {})
+    } 
     const {unit: [unit, setUnit],
     }={
         unit: useState("metric"),
@@ -27,14 +31,17 @@ const Search = (props) => {
             .then(({ data }) => {
                 //add city to the history list
                 stateCopy = [data, ...resList];
-
                 setResList(stateCopy);
+                sessionStorage.setItem("city", JSON.stringify(resList[0]))
+                sessionStorage.setItem("resList", resList)
+                console.log('sessionStorage after search: ', sessionStorage);
             })
             .catch((err) => {
                 console.error(err.message);
             });
         setCity("")
     };
+    //console.log('resList[0]: ', resList[0]);
 
     return (
         <div className="search">

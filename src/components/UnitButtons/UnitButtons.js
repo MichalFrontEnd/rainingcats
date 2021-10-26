@@ -3,7 +3,7 @@ import { Button, ButtonGroup } from 'reactstrap';
 import axios from 'axios';
 
 const UnitButtons = (props) => {
-    console.log('props on button: ', props);
+    //console.log('props on button: ', props);
     const [selected, setSelected] = useState(null);
 
     const updateSearch = (e)=>{

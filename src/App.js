@@ -9,7 +9,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Base}>            
             </Route>
-            <Route exact path="/searchres:city">
+            <Route exact path="/?:city+:unit">
               Resaults for:
             </Route>
             {/*<Route exact path="/searchres:city"></Route>*/}
