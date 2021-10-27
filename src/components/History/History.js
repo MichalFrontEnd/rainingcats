@@ -8,7 +8,6 @@ const History = (props) => {
         setResaults(props.results.length>1? props.results : null)
     },[props.results])
 
-    console.log('results: ', results);
     return (
             <div className="history-container">
             {results && (

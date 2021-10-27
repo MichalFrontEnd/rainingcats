@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 const Search = (props) => {
     const key = process.env.REACT_APP_API_KEY;
-
-    const {city: [city, setCity],
+    const [city, setCity] = useState("");
+    const {current: [current, setCurrent],
     }={
-        city: useState(""),
+        current: useState(""),
         ...(props.state || {})
     } 
     const {unit: [unit, setUnit],
@@ -32,14 +32,13 @@ const Search = (props) => {
                 //add city to the history list
                 stateCopy = [data, ...resList];
                 setResList(stateCopy);
-                sessionStorage.setItem("city", JSON.stringify(resList[0]))
-                sessionStorage.setItem("resList", resList)
-                console.log('sessionStorage after search: ', sessionStorage);
+setCurrent(JSON.parse(sessionStorage.getItem("city")));
             })
             .catch((err) => {
                 console.error(err.message);
             });
         setCity("")
+
     };
     //console.log('resList[0]: ', resList[0]);
 

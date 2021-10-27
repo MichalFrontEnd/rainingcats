@@ -8,23 +8,29 @@ import UnitButtons from '../../components/UnitButtons';
 const Base = () => {
     const [resList, setResList] = useState([]);
     const [unit, setUnit] = useState("metric");
-    const [city, setCity] = useState("");
+    const [current, setCurrent] = useState("");
+    //const [temp, setTemp] =useState("")
 
     //Add useEffect to get user's location and display the weather there.
     //have fallback plan if requires approval from user -> random city?
+    useEffect(()=> {
+        if (sessionStorage.city) {
+            console.log("There's some history here..")
+            let copy= [JSON.parse(sessionStorage.getItem("city")), ...resList]
+            setResList(copy)
+        }
 
-    //const prevRes = JSON.parse(sessionStorage.resList)
-    //if (prevRes) {
-    //setResList(prevRes)
-    //}
+    },[])
 
-    //console.log('prevRes: ', prevRes);
-    //console.log('resList test refresh: ', JSON.parse(sessionStorage.getItem(resList)));
-    console.log('sessionStorage on base: ', sessionStorage);
+    if (current) {
+        sessionStorage.setItem("city", JSON.stringify(current))
+    }
+    console.log('current on base: ', current);
+    console.log('resList: ', resList);
 
     return (
         <>
-            <Search state={{resList: [resList, setResList], unit: [unit, setUnit], city: [city, setCity]}}/>
+            <Search state={{resList: [resList, setResList], unit: [unit, setUnit], current: [current, setCurrent]}}/>
 
             {resList[0] && (
                 <>
