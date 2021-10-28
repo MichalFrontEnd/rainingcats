@@ -32,7 +32,7 @@ const Search = (props) => {
                 //add city to the history list
                 stateCopy = [data, ...resList];
                 setResList(stateCopy);
-setCurrent(JSON.parse(sessionStorage.getItem("city")));
+                sessionStorage.setItem("city", JSON.stringify(data));
             })
             .catch((err) => {
                 console.error(err.message);

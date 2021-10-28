@@ -3,7 +3,7 @@ import {Table} from 'reactstrap'
 //import { Card } from '@mui/material';
 
 const InfoCard = (props) => {
-    console.log('props on card: ', props);
+    //console.log('props on card: ', props);
     const [values, setValues] = useState({
         main: '',
         name: '',
