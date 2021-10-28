@@ -18,12 +18,12 @@ const Base = () => {
     //have fallback plan if requires approval from user -> random city?
     useEffect(() => {
         if (sessionStorage.weatherData) {
-            let sessionData = [JSON.parse(sessionStorage.getItem("weatherData")), ...resList]; //setCurrent(JSON.parse(sessionStorage.getItem("city")));
+            let sessionData = [JSON.parse(sessionStorage.getItem("weatherData")), ...resList]; 
             setResList(sessionData);
         }
     }, []);
 
-    //console.log('resList onBase: ', resList);
+
 //      useInterval(() => {
 
 //    if (sessionStorage.weatherData) {
@@ -38,7 +38,7 @@ const Base = () => {
 //            setError(err.message)
 //        })
 //    }
-//  }, 5000);
+//  }, 10000);
 
     const handleSearch=(formData)=>{
         setError("");
