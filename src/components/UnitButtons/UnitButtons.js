@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
-import { Button, ButtonGroup } from 'reactstrap';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Button, ButtonGroup } from "reactstrap";
+import axios from "axios";
 
-const UnitButtons = (props) => {
+const UnitButtons = ({ onUnitSelect }) => {
     //console.log('props on button: ', props);
     const [selected, setSelected] = useState(null);
 
-    const updateSearch = (e)=>{
-        setSelected(e.target.name)
-        if (props.unit !==selected) {
+    //const updateSearch = (e)=>{
+    //    setSelected(e.target.name)
+    //    if (props.unit !==selected) {
 
-        }
-    } 
+    //    }
+    //}
     return (
         <>
             <ButtonGroup>
-                <Button color="primary" name="imperial" onClick={(e) => updateSearch(e)} active={selected === "imperial"}>℉</Button>
-                <Button color="primary" name="metric" onClick={(e) => updateSearch(e)} active={selected === "metric"}>℃</Button>
+                <Button color="primary" name="imperial" onClick={() => onUnitSelect({ city: { value: sessionStorage.getItem("city") }, unit: { value: "imperial" } })} active={selected === "imperial"}>
+                    ℉
+                </Button>
+                <Button color="primary" name="metric" onClick={() => onUnitSelect({ city: { value: sessionStorage.getItem("city") }, unit: { value: "metric" } })} active={selected === "metric"}>
+                    ℃
+                </Button>
             </ButtonGroup>
             <p>Selected: {selected}</p>
         </>
-    )
-}
+    );
+};
 
 export default UnitButtons;

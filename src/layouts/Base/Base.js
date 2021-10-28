@@ -1,44 +1,86 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 
-import Search from '../../components/Search';
-import History from '../../components/History';
-import InfoCard from '../../components/InfoCard';
-import UnitButtons from '../../components/UnitButtons';
+import Search from "../../components/Search";
+import History from "../../components/History";
+import InfoCard from "../../components/InfoCard";
+import UnitButtons from "../../components/UnitButtons";
+import getCityWeather from "../../services/weather"
+import useInterval from "../../hooks/useInterval";
 
 const Base = () => {
     const [resList, setResList] = useState([]);
-    const [unit, setUnit] = useState("metric");
-    const [current, setCurrent] = useState("");
+    const [error, setError] = useState("");
+    const [currentCity, setCurrentCity] = useState(JSON.parse(sessionStorage.getItem("weatherData"))|| null);
+    //let current=resList[0] || null;
+    
 
-    //Add useEffect to get user's location and display the weather there.
+    //Add useEffect to get user's location and display the weather there?
     //have fallback plan if requires approval from user -> random city?
-    useEffect(()=> {
-        if (sessionStorage.city) {
-            let copy = [JSON.parse(sessionStorage.getItem("city")),...resList]//setCurrent(JSON.parse(sessionStorage.getItem("city")));
-            setResList(copy);
+    useEffect(() => {
+        if (sessionStorage.weatherData) {
+            let sessionData = [JSON.parse(sessionStorage.getItem("weatherData")), ...resList]; //setCurrent(JSON.parse(sessionStorage.getItem("city")));
+            setResList(sessionData);
         }
+    }, []);
 
-    },[])
-    console.log('current on base: ', current);
-    console.log('resList: ', resList);
-    console.log('sessionStorage.city: ', JSON.parse(sessionStorage.city));
+    //console.log('resList onBase: ', resList);
+//      useInterval(() => {
+
+//    if (sessionStorage.weatherData) {
+//        getCityWeather(sessionStorage.getItem("city"), sessionStorage.getItem("unit")).then(({data})=>{
+//                console.log('data: ', data);
+//                //let stateCopy = [data, ...resList.slice(1, resList.length)];
+
+//                //setResList(stateCopy);
+//                setCurrentCity(data)
+//        }).catch((err) => {
+//            console.log(err.message)
+//            setError(err.message)
+//        })
+//    }
+//  }, 5000);
+
+    const handleSearch=(formData)=>{
+        setError("");
+        const city = formData.city.value;
+        const unit = formData.unit.value;
+
+        getCityWeather(city, unit).then(({data})=>{
+            //add city to the history list
+                let stateCopy = [data, ...resList];
+                setResList(stateCopy);
+                sessionStorage.setItem("weatherData", JSON.stringify(data));
+                sessionStorage.setItem("unit", unit)
+                sessionStorage.setItem("city", city)
+                setCurrentCity(data)
+            })
+            .catch((err) => {
+                console.error(err.message);
+                setError(err.message)
+            })
+    }
+    
+    const handleCurrent=(i)=>{
+        setCurrentCity(resList[i]);
+        sessionStorage.setItem("city", resList[i].name)
+    }
 
     return (
         <>
-            <Search state={{resList: [resList, setResList], unit: [unit, setUnit], current: [current, setCurrent]}}/>
+            <Search onSearch={handleSearch} />
+            {error && (
+                <div>{error}</div>
+            )} 
 
             {resList[0] && (
                 <>
-                    <UnitButtons results={resList[0]} unit={unit}/>
-                    <InfoCard results={resList[0]} unit={unit}/>
-                    <History results={resList}/>
+                    <UnitButtons onUnitSelect={handleSearch} />
+                    <InfoCard results={currentCity} />
+                    <History resList={resList} onHistorySelect={handleCurrent} />
                 </>
-                )
-            }
-
-            
+            )}
         </>
-    )
-}
+    );
+};
 
 export default Base;
