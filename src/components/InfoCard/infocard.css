@@ -33,3 +33,15 @@
     border-bottom: solid 1px lightskyblue;
     box-shadow: 2px 3px 10px rgb(187, 225, 248);
 }
+
+@media screen and (min-width: 480px) {
+    .info-image {
+        height: 20rem;
+        width: 20rem;
+    }
+
+    .info-card {
+        width: 40vw;
+        padding: 2%;
+    }
+}

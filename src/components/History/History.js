@@ -26,7 +26,7 @@ const History = ({ onHistorySelect, resList }) => {
                                     onHistorySelect(i);
                                 }}
                             >
-                                <Card.Img src={`http://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`} alt="icon" />
+                                <Card.Img className="history-image" src={`http://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`} alt="icon" />
                                 <Card.Body className="p-0">
                                     <Card.Title className="history-title fs-6" as="h6">
                                         {res.name}
