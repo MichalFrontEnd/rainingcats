@@ -38,6 +38,7 @@ const Base = () => {
     //Get info from form and pass to search function. Set to state and session storage.
     const handleSearch = (formData) => {
         setError("");
+        console.log('formData: ', formData);
         const city = formData.city.value;
         const unit = formData.unit.value;
         setCurrentUnit(unit);

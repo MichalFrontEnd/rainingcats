@@ -9,13 +9,6 @@ const Search = ({ onSearch }) => {
     const [city, setCity] = useState("");
     const [unit, setUnit] = useState("metric");
 
-    const handleKeyUp = (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            onSearch(e.target);
-            setCity("");
-        }
-    };
     return (
         <div className="search mb-3">
             <Form
@@ -23,9 +16,6 @@ const Search = ({ onSearch }) => {
                     e.preventDefault();
                     onSearch(e.target);
                     setCity("");
-                }}
-                onKeyUp={(e) => {
-                    handleKeyUp(e);
                 }}
             >
                 <Row className="justify-content-space-between">
