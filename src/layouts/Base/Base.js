@@ -24,16 +24,16 @@ const Base = () => {
     }, []);
 
     //Performs a new API call every 10 seconds
-    //      useInterval(() => {
-    //    if (sessionStorage.weatherData) {
-    //        getCityWeather(sessionStorage.getItem("city"), sessionStorage.getItem("unit")).then(({data})=>{
-    //                setCurrentCity(data)
-    //        }).catch((err) => {
-    //            console.log(err.message)
-    //            setError("Couldn't update weather at this time, sorry")
-    //        })
-    //    }
-    //  }, 10000);
+          useInterval(() => {
+        if (sessionStorage.weatherData) {
+            getCityWeather(sessionStorage.getItem("city"), sessionStorage.getItem("unit")).then(({data})=>{
+                    setCurrentCity(data)
+            }).catch((err) => {
+                console.log(err.message)
+                setError("Couldn't update weather at this time, sorry")
+            })
+        }
+      }, 10000);
 
     //Get info from form and pass to search function. Set to state and session storage.
     const handleSearch = (formData) => {

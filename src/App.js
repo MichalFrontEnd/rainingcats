@@ -7,12 +7,7 @@ function App() {
     <Router>
       <div className="App">
           <Switch>
-            <Route exact path="/" component={Base}>            
-            </Route>
-            <Route exact path="/?:city+:unit">
-              Resaults for:
-            </Route>
-            {/*<Route exact path="/searchres:city"></Route>*/}
+            <Route exact path="/" component={Base} />            
           </Switch>
       </div>
     </Router>
