@@ -3,79 +3,75 @@ import React, { useEffect, useState } from "react";
 import Search from "../../components/Search";
 import History from "../../components/History";
 import InfoCard from "../../components/InfoCard";
-import UnitButtons from "../../components/UnitButtons";
-import getCityWeather from "../../services/weather"
+import getCityWeather from "../../services/weather";
 import useInterval from "../../hooks/useInterval";
 
 const Base = () => {
     const [resList, setResList] = useState([]);
     const [error, setError] = useState("");
-    const [currentCity, setCurrentCity] = useState(JSON.parse(sessionStorage.getItem("weatherData"))|| null);
-    //let current=resList[0] || null;
-    
+    const [currentCity, setCurrentCity] = useState(JSON.parse(sessionStorage.getItem("weatherData")) || null);
+    const [currentUnit, setCurrentUnit] = useState("");
 
-    //Add useEffect to get user's location and display the weather there?
-    //have fallback plan if requires approval from user -> random city?
+    //Check session storage for stored data (last result)
     useEffect(() => {
         if (sessionStorage.weatherData) {
-            let sessionData = [JSON.parse(sessionStorage.getItem("weatherData")), ...resList]; 
+            let sessionData = [JSON.parse(sessionStorage.getItem("weatherData")), ...resList];
             setResList(sessionData);
+            setCurrentUnit(sessionStorage.getItem("unit"));
         }
     }, []);
 
+    //Performs a new API call every 10 seconds
+    //      useInterval(() => {
+    //    if (sessionStorage.weatherData) {
+    //        getCityWeather(sessionStorage.getItem("city"), sessionStorage.getItem("unit")).then(({data})=>{
+    //                setCurrentCity(data)
+    //        }).catch((err) => {
+    //            console.log(err.message)
+    //            setError("Couldn't update weather at this time, sorry")
+    //        })
+    //    }
+    //  }, 10000);
 
-//      useInterval(() => {
-
-//    if (sessionStorage.weatherData) {
-//        getCityWeather(sessionStorage.getItem("city"), sessionStorage.getItem("unit")).then(({data})=>{
-//                console.log('data: ', data);
-//                //let stateCopy = [data, ...resList.slice(1, resList.length)];
-
-//                //setResList(stateCopy);
-//                setCurrentCity(data)
-//        }).catch((err) => {
-//            console.log(err.message)
-//            setError(err.message)
-//        })
-//    }
-//  }, 10000);
-
-    const handleSearch=(formData)=>{
+    //Get info from form and pass to search function. Set to state and session storage.
+    const handleSearch = (formData) => {
         setError("");
         const city = formData.city.value;
         const unit = formData.unit.value;
+        setCurrentUnit(unit);
 
-        getCityWeather(city, unit).then(({data})=>{
-            //add city to the history list
+        getCityWeather(city, unit)
+            .then(({ data }) => {
+                //add city to the history list
                 let stateCopy = [data, ...resList];
                 setResList(stateCopy);
                 sessionStorage.setItem("weatherData", JSON.stringify(data));
-                sessionStorage.setItem("unit", unit)
-                sessionStorage.setItem("city", city)
-                setCurrentCity(data)
+                sessionStorage.setItem("unit", unit);
+                sessionStorage.setItem("city", city);
+                setCurrentCity(data);
             })
             .catch((err) => {
                 console.error(err.message);
-                setError(err.message)
-            })
-    }
-    
-    const handleCurrent=(i)=>{
+                setError("There were no results to match this search, sorry");
+            });
+    };
+
+    const handleCurrent = (i) => {
         setCurrentCity(resList[i]);
-        sessionStorage.setItem("city", resList[i].name)
-    }
+        sessionStorage.setItem("city", resList[i].name);
+    };
 
     return (
         <>
             <Search onSearch={handleSearch} />
-            {error && (
-                <div>{error}</div>
-            )} 
+            {error && <div className="error-msg">{error}</div>}
 
             {resList[0] && (
                 <>
-                    <UnitButtons onUnitSelect={handleSearch} />
-                    <InfoCard results={currentCity} />
+                {!error && (
+                
+                    <InfoCard results={currentCity} unit={currentUnit} />
+                )}
                     <History resList={resList} onHistorySelect={handleCurrent} />
                 </>
             )}
