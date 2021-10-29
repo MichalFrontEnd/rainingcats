@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "reactstrap";
+import Table from 'react-bootstrap/Table'
+
+import './infocard.css'
+
 
 import UnitButtons from "../UnitButtons";
 import getCityWeather from "../../services/weather";
@@ -44,14 +47,14 @@ const InfoCard = (props) => {
     };
 
     return (
-        <div>
-            <UnitButtons onUnitSelect={handleUnit} unit={unit} />
+        <div className="info-card-container h-50">
             {props.results && (
-                <div>
-                    <h2>Weather forecast for {values.name}</h2>
-                    <img src={`http://openweathermap.org/img/wn/${values.weather.icon}@4x.png`} alt={values.weather.main} />
+                <div className="info-card pt-2 pb-2 ps-3 m-1" id={values.weather.main}>
+                    <h2 className="info-card-header fs-3 mb-0 p-0 mt-1">Weather forecast for {values.name}</h2>
+                    <img className="info-image" src={`http://openweathermap.org/img/wn/${values.weather.icon}@4x.png`} alt={values.weather.main} />
+                    <UnitButtons  onUnitSelect={handleUnit} unit={unit} />
                     <h3>{values.weather.main}</h3>
-                    <Table borderless size="sm">
+                    <Table borderless size="sm" className="fs-6">
                         <tbody>
                             <tr>
                                 <td>Temperature</td>

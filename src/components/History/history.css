@@ -1,0 +1,13 @@
+body {
+    padding: 2%;
+}
+
+.history-card-group {
+    display: inline-flex;
+}
+
+#history-item {
+    border-right: solid 1px lightslategrey;
+    border-bottom: solid 1px lightslategrey;
+    text-align: center;
+}

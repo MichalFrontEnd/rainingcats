@@ -6,6 +6,8 @@ import InfoCard from "../../components/InfoCard";
 import getCityWeather from "../../services/weather";
 import useInterval from "../../hooks/useInterval";
 
+import "./base.css";
+
 const Base = () => {
     const [resList, setResList] = useState([]);
     const [error, setError] = useState("");
@@ -63,15 +65,13 @@ const Base = () => {
 
     return (
         <>
+            <h1 className="base-header mt-2">Raining Cats</h1>
             <Search onSearch={handleSearch} />
-            {error && <div className="error-msg">{error}</div>}
+            {error && <div className="error-msg text-warning mb-2">{error}</div>}
 
             {resList[0] && (
                 <>
-                {!error && (
-                
                     <InfoCard results={currentCity} unit={currentUnit} />
-                )}
                     <History resList={resList} onHistorySelect={handleCurrent} />
                 </>
             )}
